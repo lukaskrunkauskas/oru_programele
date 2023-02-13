@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">oru_programele</string>
+    <string-array name="cities">
+        <item>Vilnius</item>
+        <item>Kaunas</item>
+        <item>Klaipeda</item>
+        <item>Marijampole</item>
+        <item>Vilkaviskis</item>
+    </string-array>
 </resources>
