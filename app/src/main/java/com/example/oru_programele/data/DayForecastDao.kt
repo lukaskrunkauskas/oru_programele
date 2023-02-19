@@ -12,6 +12,9 @@ interface DayForecastDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addDayForecast(dayForecast: DayForecast)
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addHourlyDayForecast(dayForecastList: MutableList<DayForecast>)
+
     @Query("SELECT * FROM day_forecast ORDER BY id ASC")
     fun readAllDayForecasts(): LiveData<List<DayForecast>>
 }

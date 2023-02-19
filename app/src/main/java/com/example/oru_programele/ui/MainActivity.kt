@@ -1,11 +1,11 @@
-package com.example.oru_programele
+package com.example.oru_programele.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.replace
+import com.example.oru_programele.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -13,8 +13,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val dayForecast = DayForecast()
-        val weekForecast = WeekForecast()
+        val dayForecastFragment = DayForecastFragment()
+        val weekForecastFragment = WeekForecastFragment()
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         val spinner = findViewById<Spinner>(R.id.spinner)
 
@@ -27,12 +27,12 @@ class MainActivity : AppCompatActivity() {
             spinner.adapter = adapter
         }
 
-        replaceFragment(dayForecast)
+        replaceFragment(dayForecastFragment)
 
         bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
-                R.id.dayForecast -> replaceFragment(dayForecast)
-                R.id.weekforecast -> replaceFragment(weekForecast)
+                R.id.dayForecast -> replaceFragment(dayForecastFragment)
+                R.id.weekforecast -> replaceFragment(weekForecastFragment)
             }
             true
         }

@@ -9,8 +9,8 @@ import androidx.room.Query
 @Dao
 interface WeekForecastDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addWeekForecast(weekForecast: WeekForecast)
+//    @Insert(onConflict = OnConflictStrategy.IGNORE)
+//    suspend fun addWeekForecast(weekForecast: WeekForecast)
 
     @Query("SELECT * FROM week_forecast ORDER BY id ASC")
     fun readAllWeekForecasts(): LiveData<List<WeekForecast>>
