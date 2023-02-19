@@ -14,4 +14,7 @@ interface WeekForecastDao {
 
     @Query("SELECT * FROM week_forecast ORDER BY id ASC")
     fun readAllWeekForecasts(): LiveData<List<WeekForecast>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addWeekForecasts(weekForecastList: MutableList<WeekForecast>)
 }

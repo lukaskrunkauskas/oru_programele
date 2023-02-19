@@ -9,4 +9,8 @@ class WeekForecastRepository(private val weekForecastDao: WeekForecastDao) {
 //    suspend fun addWeekForecast(weekForecast: WeekForecast) {
 //        weekForecastDao.addWeekForecast(weekForecast)
 //    }
+
+    suspend fun addWeekDailyForecast(list: MutableList<WeekForecast>) {
+        weekForecastDao.addWeekForecasts(list)
+    }
 }

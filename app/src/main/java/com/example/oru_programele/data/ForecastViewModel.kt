@@ -3,8 +3,11 @@ package com.example.oru_programele.data
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class DayForecastViewModel(application: Application): AndroidViewModel(application) {
+class ForecastViewModel(application: Application): AndroidViewModel(application) {
 
     private val readAllDayForecastData: LiveData<List<DayForecast>>
     private val readAllWeekForecastData: LiveData<List<WeekForecast>>
@@ -20,7 +23,18 @@ class DayForecastViewModel(application: Application): AndroidViewModel(applicati
         readAllWeekForecastData = weekForecastRepository.readAllData
     }
 
-    //fun add
+    fun addDayHourlyForecast(list: MutableList<DayForecast>) {
+        //running in background thread
+        viewModelScope.launch(Dispatchers.IO) {
+            dayForecastRepository.addDayHourlyForecast(list)
+        }
+    }
+
+    fun addWeekDailyForecast(list: MutableList<WeekForecast>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            weekForecastRepository.addWeekDailyForecast(list)
+        }
+    }
 
 
 }

@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
 import com.example.oru_programele.data.DayForecast
+import com.example.oru_programele.data.WeekForecast
 import org.json.JSONObject
 import java.net.URL
 import java.text.SimpleDateFormat
@@ -33,8 +34,26 @@ class FromJsonConverter(): JSONObject()  {
         return dayForecastList
     }
 
-    fun converterWeekly() {
+    fun converterWeekly(city : String) : MutableList<WeekForecast>{
+        if (Build.VERSION.SDK_INT > 9) {
+            val gfgPolicy = ThreadPolicy.Builder().permitAll().build()
+            StrictMode.setThreadPolicy(gfgPolicy)
+        }
+        val jsonObj = JSONObject(readUrl(city, 1))
+        val forecastObj = jsonObj.getJSONObject("forecast")
+        val forecastDayObj = forecastObj.getJSONArray("forecastday").getJSONObject(0)
+        val hourlyArr = forecastDayObj.getJSONArray("hour")
 
+        val dayForecastList: MutableList<DayForecast> = mutableListOf()
+        for (i in 0 until hourlyArr.length()) {
+            val hourObj = hourlyArr.getJSONObject(i)
+            val timeStr = hourObj.getString("time")
+            val tempC = hourObj.getDouble("temp_c")
+            val date = SimpleDateFormat("yyyy-MM-dd HH:mm").parse(timeStr)
+            dayForecastList.add(DayForecast(0, date, tempC, city))
+        }
+
+        return dayForecastList
     }
 
 
@@ -44,4 +63,5 @@ class FromJsonConverter(): JSONObject()  {
         val json = url.readText()
         return json
     }
+
 }
