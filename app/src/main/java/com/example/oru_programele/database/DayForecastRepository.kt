@@ -21,6 +21,9 @@ class DayForecastRepository(private val dayForecastDao: DayForecastDao) {
 
      fun readMultipleDaysForecast(city : String, dateFrom : String, dateTo : String): LiveData<List<WeekDayForecast>> {
          return dayForecastDao.readMultipleDaysForecast(city, dateFrom, dateTo)
+    }
 
+    fun readOneDayHourlyForecast(city: String, date: String): LiveData<List<DayForecast>> {
+        return dayForecastDao.readOneDayHourlyForecast(city, date)
     }
 }

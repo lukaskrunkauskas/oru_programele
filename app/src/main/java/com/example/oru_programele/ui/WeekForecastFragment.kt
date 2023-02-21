@@ -32,7 +32,7 @@ class WeekForecastFragment : Fragment() {
 
     fun fillRecyclerViewData() {
         val adapter = WeekForecastListAdapter()
-        val recyclerView = v.findViewById<RecyclerView>(R.id.recyclerView)
+        val recyclerView = v.findViewById<RecyclerView>(R.id.weekForecastRecyclerView)
         recyclerView?.adapter = adapter
         recyclerView?.layoutManager = LinearLayoutManager(requireContext())
         forecastViewModel = ViewModelProvider(this).get(ForecastViewModel::class.java)

@@ -60,4 +60,12 @@ interface DayForecastDao {
         group by day
     """)
     fun readMultipleDaysForecast(city : String, dateFrom : String, dateTo : String) : LiveData<List<WeekDayForecast>>
+
+    @Query(""" 
+        SELECT id, dateTime, temperature, city 
+        FROM day_forecast 
+        WHERE city = :city
+        AND strftime('%Y-%m-%d', dateTime) = :date
+    """)
+    fun readOneDayHourlyForecast(city : String, date : String) : LiveData<List<DayForecast>>
 }

@@ -53,26 +53,30 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-
-        }
+//        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(
+//                parent: AdapterView<*>?,
+//                view: View?,
+//                position: Int,
+//                id: Long
+//            ) {
+//
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>?) {}
+//
+//        }
 
         forecastViewModel = ViewModelProvider(this).get(ForecastViewModel::class.java)
 
         refreshButton.setOnClickListener {
             city = spinner.selectedItem.toString()
             insertForecastDataToDatabase()
-            weekForecastFragment.fillRecyclerViewData()
+            if (dayForecastFragment.isVisible) {
+                dayForecastFragment.fillRecyclerViewData()
+            } else {
+                weekForecastFragment.fillRecyclerViewData()
+            }
             println("updated db")
         }
     }
@@ -87,7 +91,6 @@ class MainActivity : AppCompatActivity() {
             val transaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.frameLayout, fragment)
             transaction.commit()
-
         }
     }
 }

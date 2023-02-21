@@ -12,18 +12,15 @@ import kotlinx.coroutines.launch
 class ForecastViewModel(application: Application): AndroidViewModel(application) {
 
     val readAllDayForecastData: LiveData<List<DayForecast>>
-   // val readWeekForecasts: LiveData<List<DayForecast>>
     private val dayForecastRepository: DayForecastRepository
 
     init {
         val dayForecastDao = ForecastDatabase.getDatabase(application).dayForecastDao()
         dayForecastRepository = DayForecastRepository(dayForecastDao)
         readAllDayForecastData = dayForecastRepository.readAllData
-        //readWeekForecasts = dayForecastRepository.readWeekForecasts
     }
 
     fun addDayHourlyForecast(list: MutableList<DayForecast>) {
-        //running in background thread
         viewModelScope.launch(Dispatchers.IO) {
             dayForecastRepository.addDayHourlyForecast(list)
         }
@@ -31,5 +28,9 @@ class ForecastViewModel(application: Application): AndroidViewModel(application)
 
     fun readMultipleDaysForecast(city : String, dateFrom : String, dateTo : String) : LiveData<List<WeekDayForecast>> {
         return dayForecastRepository.readMultipleDaysForecast(city, dateFrom, dateTo)
+    }
+
+    fun readOneDayHourlyForecast(city: String, date: String) : LiveData<List<DayForecast>> {
+        return dayForecastRepository.readOneDayHourlyForecast(city, date)
     }
 }

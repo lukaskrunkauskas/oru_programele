@@ -6,45 +6,44 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.oru_programele.R
-import com.example.oru_programele.database.models.WeekDayForecast
+import com.example.oru_programele.SettingsFragment
+import com.example.oru_programele.database.models.DayForecast
 import java.math.RoundingMode
 import java.text.DecimalFormat
-import com.example.oru_programele.SettingsFragment.Companion.isFahrenheit
 
-class WeekForecastListAdapter: RecyclerView.Adapter<WeekForecastListAdapter.MyViewHolder>() {
+class DayForecastListAdapter : RecyclerView.Adapter<DayForecastListAdapter.MyViewHolder>() {
 
-    private var weekForecastList = emptyList<WeekDayForecast>()
+    private var weekForecastList = emptyList<DayForecast>()
 
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        return MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.day_list_item, parent, false))
+        return MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.one_hour_list_item, parent, false))
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = weekForecastList[position]
 
-        holder.itemView.findViewById<TextView>(R.id.date).text = item.day.toString()
-        holder.itemView.findViewById<TextView>(R.id.dayTemperature).text = fromCelsiusToFahrenheit(round(item.dayTemperature))
-        holder.itemView.findViewById<TextView>(R.id.nightTemperature).text = fromCelsiusToFahrenheit(round(item.nightTemperature))
+        holder.itemView.findViewById<TextView>(R.id.date).text = item.dateTime.toString().substring(0, 10)
+        holder.itemView.findViewById<TextView>(R.id.hourText).text = item.dateTime.toString().substring(11)
+        holder.itemView.findViewById<TextView>(R.id.dayTemperature).text = fromCelsiusToFahrenheit(round(item.temperature))
     }
 
     override fun getItemCount(): Int {
         return weekForecastList.size
     }
 
-    fun setData(weekForecast: List<WeekDayForecast>) {
+    fun setData(weekForecast: List<DayForecast>) {
         this.weekForecastList = weekForecast
         println("RADAU")
-        println(weekForecast.get(0).dayTemperature)
         notifyDataSetChanged()
 
     }
 
     fun fromCelsiusToFahrenheit(celsiusTemperature: Double) : String {
-        if (isFahrenheit) {
+        if (SettingsFragment.isFahrenheit) {
             val fahrenheitTemperature = round(celsiusTemperature * 1.8 + 32)
             return "$fahrenheitTemperature °F"
         }
