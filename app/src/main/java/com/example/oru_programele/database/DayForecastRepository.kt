@@ -1,9 +1,8 @@
-package com.example.oru_programele.data
+package com.example.oru_programele.database
 
 import androidx.lifecycle.LiveData
-import com.example.oru_programele.data.models.DayForecast
-import com.example.oru_programele.data.models.WeekDayForecast
-import com.example.oru_programele.data.models.WeekForecast
+import com.example.oru_programele.database.models.DayForecast
+import com.example.oru_programele.database.models.WeekDayForecast
 
 class DayForecastRepository(private val dayForecastDao: DayForecastDao) {
 
@@ -21,8 +20,7 @@ class DayForecastRepository(private val dayForecastDao: DayForecastDao) {
     }
 
      fun readMultipleDaysForecast(city : String, dateFrom : String, dateTo : String): LiveData<List<WeekDayForecast>> {
-        var temp = dayForecastDao.readMultipleDaysForecast(city, dateFrom, dateTo)
-         return temp
+         return dayForecastDao.readMultipleDaysForecast(city, dateFrom, dateTo)
 
     }
 }

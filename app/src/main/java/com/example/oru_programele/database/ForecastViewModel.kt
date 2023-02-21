@@ -1,11 +1,11 @@
-package com.example.oru_programele.data
+package com.example.oru_programele.database
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.example.oru_programele.data.models.DayForecast
-import com.example.oru_programele.data.models.WeekDayForecast
+import com.example.oru_programele.database.models.DayForecast
+import com.example.oru_programele.database.models.WeekDayForecast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

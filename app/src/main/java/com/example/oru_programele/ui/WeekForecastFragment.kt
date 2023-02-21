@@ -10,7 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.oru_programele.adapters.WeekForecastListAdapter
 import com.example.oru_programele.R
-import com.example.oru_programele.data.ForecastViewModel
+import com.example.oru_programele.database.ForecastViewModel
+import java.time.LocalDate
 
 class WeekForecastFragment : Fragment() {
 
@@ -35,7 +36,7 @@ class WeekForecastFragment : Fragment() {
         recyclerView?.adapter = adapter
         recyclerView?.layoutManager = LinearLayoutManager(requireContext())
         forecastViewModel = ViewModelProvider(this).get(ForecastViewModel::class.java)
-        forecastViewModel.readMultipleDaysForecast(mainActivity.city, "2023-02-20", "2023-02-27")
+        forecastViewModel.readMultipleDaysForecast(mainActivity.city, LocalDate.now().toString(), LocalDate.now().plusDays(7).toString())
             .observe(viewLifecycleOwner, androidx.lifecycle.Observer {forecast ->
                 adapter.setData(forecast)
             })

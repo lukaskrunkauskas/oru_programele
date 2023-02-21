@@ -1,7 +1,6 @@
-package com.example.oru_programele.data.models
+package com.example.oru_programele.database.models
 
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 data class WeekDayForecast(
     val day: LocalDate,

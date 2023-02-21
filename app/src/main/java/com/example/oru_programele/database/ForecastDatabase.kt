@@ -1,4 +1,4 @@
-package com.example.oru_programele.data
+package com.example.oru_programele.database
 
 import android.content.Context
 import androidx.room.Database
@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.oru_programele.Converters
-import com.example.oru_programele.data.models.DayForecast
+import com.example.oru_programele.database.models.DayForecast
 
 @Database(entities = [DayForecast::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)

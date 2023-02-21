@@ -1,10 +1,8 @@
-package com.example.oru_programele.data.models
+package com.example.oru_programele.database.models
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import org.jetbrains.annotations.NotNull
 import java.time.LocalDateTime
 
 @Entity(tableName = "day_forecast", indices = [Index(value = ["dateTime", "city"],

@@ -1,12 +1,12 @@
-package com.example.oru_programele.data
+package com.example.oru_programele.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.oru_programele.data.models.DayForecast
-import com.example.oru_programele.data.models.WeekDayForecast
+import com.example.oru_programele.database.models.DayForecast
+import com.example.oru_programele.database.models.WeekDayForecast
 
 @Dao
 interface DayForecastDao {

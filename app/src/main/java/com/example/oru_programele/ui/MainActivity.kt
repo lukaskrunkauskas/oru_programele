@@ -1,6 +1,5 @@
 package com.example.oru_programele.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -11,7 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.oru_programele.R
-import com.example.oru_programele.data.ForecastViewModel
+import com.example.oru_programele.SettingsFragment
+import com.example.oru_programele.database.ForecastViewModel
 import com.example.oru_programele.json.FromJsonConverter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         val dayForecastFragment = DayForecastFragment()
         val weekForecastFragment = WeekForecastFragment()
+        val settingsFragment = SettingsFragment()
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         val spinner = findViewById<Spinner>(R.id.spinner)
         val refreshButton = findViewById<Button>(R.id.getDataButton)
@@ -47,6 +48,7 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId) {
                 R.id.dayForecast -> replaceFragment(dayForecastFragment)
                 R.id.weekforecast -> replaceFragment(weekForecastFragment)
+                R.id.settingsMenu -> replaceFragment(settingsFragment)
             }
             true
         }

@@ -3,7 +3,7 @@ package com.example.oru_programele.json
 import android.os.Build
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
-import com.example.oru_programele.data.models.DayForecast
+import com.example.oru_programele.database.models.DayForecast
 import org.json.JSONObject
 import java.net.URL
 import java.time.Instant
@@ -28,16 +28,12 @@ class FromJsonConverter(): JSONObject()  {
             for (i in 0 until hourlyArr.length()) {
                 val hourObj = hourlyArr.getJSONObject(i)
                 val timeEpoch = hourObj.getLong("time_epoch")
-                // val timeStr = hourObj.getString("time")
                 val tempC = hourObj.getDouble("temp_c")
-                //val date = SimpleDateFormat("yyyy-MM-dd HH:mm").parse(timeStr)
                 dayForecastList.add(DayForecast(0, getLocalDateTime(timeEpoch), tempC, city))
             }
         }
-
         return dayForecastList
     }
-
 
     fun readUrl(city: String, days: Int) : String{
         val apiKey = "ea4bc5fe6c85452cb12142742231902"
@@ -50,7 +46,6 @@ class FromJsonConverter(): JSONObject()  {
         val dt = Instant.ofEpochSecond(timeEpoch)
             .atZone(ZoneId.systemDefault())
             .toLocalDateTime()
-
         return dt
     }
 }

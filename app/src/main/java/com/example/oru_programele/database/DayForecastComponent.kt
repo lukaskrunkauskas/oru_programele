@@ -1,6 +1,6 @@
-package com.example.oru_programele.data
+package com.example.oru_programele.database
 
-import com.example.oru_programele.data.models.DayForecast
+import com.example.oru_programele.database.models.DayForecast
 import dagger.Component
 
 @Component

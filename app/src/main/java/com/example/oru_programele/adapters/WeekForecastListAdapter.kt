@@ -6,9 +6,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.oru_programele.R
-import com.example.oru_programele.data.models.WeekDayForecast
+import com.example.oru_programele.SettingsFragment
+import com.example.oru_programele.database.models.WeekDayForecast
+import java.math.RoundingMode
+import java.text.DecimalFormat
+import com.example.oru_programele.SettingsFragment.Companion.isFahrenheit
 
 class WeekForecastListAdapter: RecyclerView.Adapter<WeekForecastListAdapter.MyViewHolder>() {
+
+    var settingsFragment = SettingsFragment()
 
     private var weekForecastList = emptyList<WeekDayForecast>()
 
@@ -22,9 +28,10 @@ class WeekForecastListAdapter: RecyclerView.Adapter<WeekForecastListAdapter.MyVi
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = weekForecastList[position]
+
         holder.itemView.findViewById<TextView>(R.id.date).text = item.day.toString()
-        holder.itemView.findViewById<TextView>(R.id.dayTemperature).text = item.dayTemperature.toString()
-        holder.itemView.findViewById<TextView>(R.id.nightTemperature).text = item.nightTemperature.toString()
+        holder.itemView.findViewById<TextView>(R.id.dayTemperature).text = fromCelsiusToFahrenheit(round(item.dayTemperature))
+        holder.itemView.findViewById<TextView>(R.id.nightTemperature).text = fromCelsiusToFahrenheit(round(item.nightTemperature))
     }
 
     override fun getItemCount(): Int {
@@ -34,11 +41,22 @@ class WeekForecastListAdapter: RecyclerView.Adapter<WeekForecastListAdapter.MyVi
     fun setData(weekForecast: List<WeekDayForecast>) {
         this.weekForecastList = weekForecast
         println("RADAU")
-        println(weekForecast.get(0).nightTemperature)
+        println(weekForecast.get(0).dayTemperature)
         notifyDataSetChanged()
 
     }
 
-    fun fromCelsiusToFahrenheit()
+    fun fromCelsiusToFahrenheit(celsiusTemperature: Double) : String {
+        if (isFahrenheit) {
+            val fahrenheitTemperature = celsiusTemperature * 1.8 + 32
+            return "$fahrenheitTemperature °F"
+        }
+        return "$celsiusTemperature °C"
+    }
 
+    fun round(number: Double): Double {
+        val df = DecimalFormat("#.#")
+        df.roundingMode = RoundingMode.FLOOR
+        return df.format(number).toDouble()
+    }
 }

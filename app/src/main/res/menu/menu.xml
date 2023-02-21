@@ -10,4 +10,9 @@
         android:id="@+id/weekforecast"
         android:title="Weekforecast"
         android:icon="@drawable/ic_android"/>
+
+    <item
+        android:id="@+id/settingsMenu"
+        android:title="Settings"
+        android:icon="@drawable/ic_android"/>
 </menu>
