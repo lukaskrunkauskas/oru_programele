@@ -1,43 +1,43 @@
 package com.example.oru_programele.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ListView
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.oru_programele.adapters.WeekForecastListAdapter
 import com.example.oru_programele.R
-import com.example.oru_programele.WeekForecastAdapter
-import com.example.oru_programele.data.WeekForecast
-import com.google.gson.internal.bind.TypeAdapters
-import java.time.LocalDate
-import java.util.*
+import com.example.oru_programele.data.ForecastViewModel
 
 class WeekForecastFragment : Fragment() {
 
-    lateinit var weekForecastAdapter: WeekForecastAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    lateinit var mainActivity : MainActivity
+    private lateinit var forecastViewModel: ForecastViewModel
+    lateinit var v: View
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        v = inflater.inflate(R.layout.fragment_week_forecast, container, false)
+        mainActivity = activity as MainActivity
+        fillRecyclerViewData()
+        return v
+    }
 
-        val view = inflater.inflate(R.layout.fragment_week_forecast, container, false)
-        val list = mutableListOf<WeekForecast>()
-        list.add(WeekForecast(1, Date(2000, 4, 5),4.5, 1.2, "Vilnius"))
-        list.add(WeekForecast(2, Date(2000, 4, 5), 10.5, 178.2, "Kaunas"))
-        list.add(WeekForecast(3, Date(2000, 4, 5), 999.5, 18.2, "Vilkaviskis"))
-
-        weekForecastAdapter = WeekForecastAdapter(requireActivity(), list)
-
-        val listView = view.findViewById<ListView>(R.id.listView)
-        listView.setAdapter(weekForecastAdapter)
-
-        return view
+    fun fillRecyclerViewData() {
+        val adapter = WeekForecastListAdapter()
+        val recyclerView = v.findViewById<RecyclerView>(R.id.recyclerView)
+        recyclerView?.adapter = adapter
+        recyclerView?.layoutManager = LinearLayoutManager(requireContext())
+        forecastViewModel = ViewModelProvider(this).get(ForecastViewModel::class.java)
+        forecastViewModel.readMultipleDaysForecast(mainActivity.city, "2023-02-20", "2023-02-27")
+            .observe(viewLifecycleOwner, androidx.lifecycle.Observer {forecast ->
+                adapter.setData(forecast)
+            })
     }
 }

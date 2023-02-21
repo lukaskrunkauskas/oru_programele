@@ -4,23 +4,22 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import com.example.oru_programele.data.models.DayForecast
+import com.example.oru_programele.data.models.WeekDayForecast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ForecastViewModel(application: Application): AndroidViewModel(application) {
 
-    private val readAllDayForecastData: LiveData<List<DayForecast>>
-    private val readAllWeekForecastData: LiveData<List<WeekForecast>>
+    val readAllDayForecastData: LiveData<List<DayForecast>>
+   // val readWeekForecasts: LiveData<List<DayForecast>>
     private val dayForecastRepository: DayForecastRepository
-    private val weekForecastRepository: WeekForecastRepository
 
     init {
         val dayForecastDao = ForecastDatabase.getDatabase(application).dayForecastDao()
-        val weekForecastDao = ForecastDatabase.getDatabase(application).weekForecastDao()
         dayForecastRepository = DayForecastRepository(dayForecastDao)
-        weekForecastRepository = WeekForecastRepository(weekForecastDao)
         readAllDayForecastData = dayForecastRepository.readAllData
-        readAllWeekForecastData = weekForecastRepository.readAllData
+        //readWeekForecasts = dayForecastRepository.readWeekForecasts
     }
 
     fun addDayHourlyForecast(list: MutableList<DayForecast>) {
@@ -30,11 +29,7 @@ class ForecastViewModel(application: Application): AndroidViewModel(application)
         }
     }
 
-    fun addWeekDailyForecast(list: MutableList<WeekForecast>) {
-        viewModelScope.launch(Dispatchers.IO) {
-            weekForecastRepository.addWeekDailyForecast(list)
-        }
+    fun readMultipleDaysForecast(city : String, dateFrom : String, dateTo : String) : LiveData<List<WeekDayForecast>> {
+        return dayForecastRepository.readMultipleDaysForecast(city, dateFrom, dateTo)
     }
-
-
 }

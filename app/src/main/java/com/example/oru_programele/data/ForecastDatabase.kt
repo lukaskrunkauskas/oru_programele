@@ -6,14 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.oru_programele.Converters
+import com.example.oru_programele.data.models.DayForecast
 
-@Database(entities = [DayForecast::class, WeekForecast::class], version = 1, exportSchema = false)
+@Database(entities = [DayForecast::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class ForecastDatabase: RoomDatabase() {
 
     abstract fun dayForecastDao(): DayForecastDao
-
-    abstract fun weekForecastDao(): WeekForecastDao
 
     companion object {
         @Volatile

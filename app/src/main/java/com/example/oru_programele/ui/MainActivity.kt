@@ -1,9 +1,13 @@
 package com.example.oru_programele.ui
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.Spinner
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.oru_programele.R
@@ -37,7 +41,6 @@ class MainActivity : AppCompatActivity() {
             city = spinner.selectedItem.toString()
         }
 
-
         replaceFragment(dayForecastFragment)
 
         bottomNavigationView.setOnItemSelectedListener {
@@ -48,22 +51,33 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        //spinner.selectedItem.toString()
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+        }
 
         forecastViewModel = ViewModelProvider(this).get(ForecastViewModel::class.java)
 
         refreshButton.setOnClickListener {
             city = spinner.selectedItem.toString()
             insertForecastDataToDatabase()
+            weekForecastFragment.fillRecyclerViewData()
+            println("updated db")
         }
-
     }
 
     private fun insertForecastDataToDatabase() {
         val dayForecastList = fromJsonConverter.coverterHourly(city)
-        val weekForecastList = fromJsonConverter.converterWeekly(city)
         forecastViewModel.addDayHourlyForecast(dayForecastList)
-        forecastViewModel.addWeekDailyForecast(weekForecastList)
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -71,6 +85,7 @@ class MainActivity : AppCompatActivity() {
             val transaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.frameLayout, fragment)
             transaction.commit()
+
         }
     }
 }

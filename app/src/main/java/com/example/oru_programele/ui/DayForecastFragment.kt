@@ -16,7 +16,7 @@ class DayForecastFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        fromJsonConverter.coverterHourly("vilnius");
+        //fromJsonConverter.coverterHourly("vilnius");
     }
 
     override fun onCreateView(
