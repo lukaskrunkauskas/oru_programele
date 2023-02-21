@@ -40,7 +40,6 @@ class DayForecastFragment : Fragment() {
             .observe(viewLifecycleOwner, androidx.lifecycle.Observer { forecast ->
                 adapter.setData(forecast)
             })
-        println(mainActivity.city)
     }
 
     fun selectItem(item: View) {

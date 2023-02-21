@@ -13,6 +13,8 @@ import com.example.oru_programele.database.ForecastViewModel
 import com.example.oru_programele.json.FromJsonConverter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.oru_programele.ui.SettingsFragment.Companion.isAutoUpdate
+import com.example.oru_programele.ui.SettingsFragment.Companion.updateDate
+import java.time.LocalDate
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         forecastViewModel = ViewModelProvider(this).get(ForecastViewModel::class.java)
+        insertForecastDataToDatabase()
 
         refreshButton.setOnClickListener {
             city = spinner.selectedItem.toString()
@@ -71,6 +74,7 @@ class MainActivity : AppCompatActivity() {
     private fun insertForecastDataToDatabase() {
         val dayForecastList = fromJsonConverter.coverterHourly(city)
         forecastViewModel.addDayHourlyForecast(dayForecastList)
+        updateDate = LocalDate.now()
     }
 
     private fun startTimer() {
