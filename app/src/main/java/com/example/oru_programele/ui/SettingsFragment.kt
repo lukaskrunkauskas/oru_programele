@@ -1,4 +1,4 @@
-package com.example.oru_programele
+package com.example.oru_programele.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.Switch
 import androidx.fragment.app.Fragment
+import com.example.oru_programele.R
 
 class SettingsFragment : Fragment() {
 
@@ -28,12 +29,9 @@ class SettingsFragment : Fragment() {
             isFahrenheit = isChecked
         })
 
-        //TODO: auto update
         autoUpdateSwitch.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
-
+            isAutoUpdate = isChecked
         })
         return view
-
     }
-
 }

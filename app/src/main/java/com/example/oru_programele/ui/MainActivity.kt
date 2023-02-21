@@ -1,19 +1,18 @@
 package com.example.oru_programele.ui
 
 import android.os.Bundle
-import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.example.oru_programele.R
-import com.example.oru_programele.SettingsFragment
 import com.example.oru_programele.database.ForecastViewModel
 import com.example.oru_programele.json.FromJsonConverter
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.oru_programele.ui.SettingsFragment.Companion.isAutoUpdate
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,10 +26,10 @@ class MainActivity : AppCompatActivity() {
 
         val dayForecastFragment = DayForecastFragment()
         val weekForecastFragment = WeekForecastFragment()
-        val settingsFragment = SettingsFragment()
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         val spinner = findViewById<Spinner>(R.id.spinner)
         val refreshButton = findViewById<Button>(R.id.getDataButton)
+
+        startTimer()
 
         ArrayAdapter.createFromResource(
             this,
@@ -42,43 +41,31 @@ class MainActivity : AppCompatActivity() {
             city = spinner.selectedItem.toString()
         }
 
-        replaceFragment(dayForecastFragment)
-
-        bottomNavigationView.setOnItemSelectedListener {
-            when(it.itemId) {
-                R.id.dayForecast -> replaceFragment(dayForecastFragment)
-                R.id.weekforecast -> replaceFragment(weekForecastFragment)
-                R.id.settingsMenu -> replaceFragment(settingsFragment)
-            }
-            true
-        }
-
-//        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(
-//                parent: AdapterView<*>?,
-//                view: View?,
-//                position: Int,
-//                id: Long
-//            ) {
-//
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>?) {}
-//
-//        }
-
         forecastViewModel = ViewModelProvider(this).get(ForecastViewModel::class.java)
 
         refreshButton.setOnClickListener {
             city = spinner.selectedItem.toString()
             insertForecastDataToDatabase()
-            if (dayForecastFragment.isVisible) {
-                dayForecastFragment.fillRecyclerViewData()
-            } else {
-                weekForecastFragment.fillRecyclerViewData()
-            }
-            println("updated db")
+
+            forecastViewModel.selectedItem.observe(this, androidx.lifecycle.Observer { item ->
+                if (dayForecastFragment.isVisible) {
+                    dayForecastFragment.fillRecyclerViewData(item)
+                } else {
+                    weekForecastFragment.fillRecyclerViewData(item)
+                }
+            })
+            val navHostFragment =
+                supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+            val navController = navHostFragment.navController
+            val id = navController.currentDestination?.id
+            navController.popBackStack(id!!, true)
+            navController.navigate(id)
         }
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navController = navHostFragment.navController
+        val navView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        navView.setupWithNavController(navController)
     }
 
     private fun insertForecastDataToDatabase() {
@@ -86,11 +73,20 @@ class MainActivity : AppCompatActivity() {
         forecastViewModel.addDayHourlyForecast(dayForecastList)
     }
 
-    private fun replaceFragment(fragment: Fragment) {
-        if (fragment != null) {
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.frameLayout, fragment)
-            transaction.commit()
+    private fun startTimer() {
+        val t: Thread = object : Thread() {
+            override fun run() {
+                while (true) {
+                    try {
+                        sleep((1000 * 60 * 60).toLong())
+                        if (isAutoUpdate) {
+                            insertForecastDataToDatabase()
+                        }
+                    } catch (ie: InterruptedException) {
+                    }
+                }
+            }
         }
+        t.start()
     }
 }

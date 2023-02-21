@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/dayForecast"
+        android:id="@+id/dayForecastFragment"
         android:title="DayForecast"
         android:icon="@drawable/ic_android"/>
 
     <item
-        android:id="@+id/weekforecast"
+        android:id="@+id/weekForecastFragment"
         android:title="Weekforecast"
         android:icon="@drawable/ic_android"/>
 
     <item
-        android:id="@+id/settingsMenu"
+        android:id="@+id/settingsFragment"
         android:title="Settings"
         android:icon="@drawable/ic_android"/>
 </menu>

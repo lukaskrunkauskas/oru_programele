@@ -6,4 +6,5 @@ data class WeekDayForecast(
     val day: LocalDate,
     val dayTemperature: Double,
     val nightTemperature: Double,
-    var city: String) {}
+    var city: String
+)

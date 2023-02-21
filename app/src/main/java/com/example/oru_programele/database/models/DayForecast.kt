@@ -5,14 +5,16 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.time.LocalDateTime
 
-@Entity(tableName = "day_forecast", indices = [Index(value = ["dateTime", "city"],
-    unique = true)])
-data class DayForecast(//reikalingas @Inject kad dagger veiktu
+@Entity(
+    tableName = "day_forecast", indices = [Index(
+        value = ["dateTime", "city"],
+        unique = true
+    )]
+)
+data class DayForecast(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val dateTime: LocalDateTime,
     val temperature: Double,
     var city: String
-) {
-
-}
+)

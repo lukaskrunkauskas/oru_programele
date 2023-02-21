@@ -15,29 +15,32 @@ import java.time.LocalDate
 
 class WeekForecastFragment : Fragment() {
 
-    lateinit var mainActivity : MainActivity
+    lateinit var mainActivity: MainActivity
     private lateinit var forecastViewModel: ForecastViewModel
-    lateinit var v: View
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        v = inflater.inflate(R.layout.fragment_week_forecast, container, false)
+        var v = inflater.inflate(R.layout.fragment_week_forecast, container, false)
         mainActivity = activity as MainActivity
-        fillRecyclerViewData()
+        forecastViewModel = ViewModelProvider(this).get(ForecastViewModel::class.java)
+        fillRecyclerViewData(v)
         return v
     }
 
-    fun fillRecyclerViewData() {
+    fun fillRecyclerViewData(v: View) {
         val adapter = WeekForecastListAdapter()
         val recyclerView = v.findViewById<RecyclerView>(R.id.weekForecastRecyclerView)
         recyclerView?.adapter = adapter
         recyclerView?.layoutManager = LinearLayoutManager(requireContext())
-        forecastViewModel = ViewModelProvider(this).get(ForecastViewModel::class.java)
-        forecastViewModel.readMultipleDaysForecast(mainActivity.city, LocalDate.now().toString(), LocalDate.now().plusDays(7).toString())
-            .observe(viewLifecycleOwner, androidx.lifecycle.Observer {forecast ->
+        forecastViewModel.readMultipleDaysForecast(
+            mainActivity.city,
+            LocalDate.now().toString(),
+            LocalDate.now().plusDays(7).toString()
+        )
+            .observe(viewLifecycleOwner, androidx.lifecycle.Observer { forecast ->
                 adapter.setData(forecast)
             })
     }

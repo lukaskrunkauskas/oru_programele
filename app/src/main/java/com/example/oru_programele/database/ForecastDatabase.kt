@@ -10,9 +10,9 @@ import com.example.oru_programele.database.models.DayForecast
 
 @Database(entities = [DayForecast::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
-abstract class ForecastDatabase: RoomDatabase() {
+abstract class ForecastDatabase : RoomDatabase() {
 
-    abstract fun dayForecastDao(): DayForecastDao
+    abstract fun dayForecastDao(): ForecastDao
 
     companion object {
         @Volatile

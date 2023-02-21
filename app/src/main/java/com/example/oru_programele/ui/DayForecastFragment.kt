@@ -15,38 +15,35 @@ import java.time.LocalDate
 
 class DayForecastFragment : Fragment() {
 
-    lateinit var v: View
-    lateinit var mainActivity : MainActivity
+    lateinit var mainActivity: MainActivity
     private lateinit var forecastViewModel: ForecastViewModel
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        //fromJsonConverter.coverterHourly("vilnius");
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        v =  inflater.inflate(R.layout.fragment_day_forecast, container, false)
-        mainActivity = activity as MainActivity
+    ): View {
+        var v = inflater.inflate(R.layout.fragment_day_forecast, container, false)
 
-        fillRecyclerViewData()
+        mainActivity = activity as MainActivity
+        forecastViewModel = ViewModelProvider(this).get(ForecastViewModel::class.java)
+        selectItem(v)
+        fillRecyclerViewData(v)
         return v
     }
 
-    fun fillRecyclerViewData() {
+    fun fillRecyclerViewData(v: View) {
         val adapter = DayForecastListAdapter()
         val recyclerView = v.findViewById<RecyclerView>(R.id.dayForecastRecyclerView)
         recyclerView?.adapter = adapter
         recyclerView?.layoutManager = LinearLayoutManager(requireContext())
-        //TODO: iskelti i virsu
-        forecastViewModel = ViewModelProvider(this).get(ForecastViewModel::class.java)
         forecastViewModel.readOneDayHourlyForecast(mainActivity.city, LocalDate.now().toString())
-            .observe(viewLifecycleOwner, androidx.lifecycle.Observer {forecast ->
+            .observe(viewLifecycleOwner, androidx.lifecycle.Observer { forecast ->
                 adapter.setData(forecast)
             })
+        println(mainActivity.city)
+    }
+
+    fun selectItem(item: View) {
+        forecastViewModel.selectItem(item)
     }
 }

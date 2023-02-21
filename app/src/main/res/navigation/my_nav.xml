@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/dayForecastFragment">
+
+    <fragment
+        android:id="@+id/dayForecastFragment"
+        android:name="com.example.oru_programele.ui.DayForecastFragment"
+        android:label="fragment_day_forecast"
+        tools:layout="@layout/fragment_day_forecast" >
+        <action
+            android:id="@+id/action_dayForecastFragment_to_weekForecastFragment"
+            app:destination="@id/weekForecastFragment" />
+        <action
+            android:id="@+id/action_dayForecastFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/weekForecastFragment"
+        android:name="com.example.oru_programele.ui.WeekForecastFragment"
+        android:label="fragment_week_forecast"
+        tools:layout="@layout/fragment_week_forecast" >
+        <action
+            android:id="@+id/action_weekForecastFragment_to_dayForecastFragment"
+            app:destination="@id/dayForecastFragment" />
+        <action
+            android:id="@+id/action_weekForecastFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.oru_programele.ui.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_weekForecastFragment"
+            app:destination="@id/weekForecastFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_dayForecastFragment"
+            app:destination="@id/dayForecastFragment" />
+    </fragment>
+</navigation>

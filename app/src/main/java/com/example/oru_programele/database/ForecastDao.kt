@@ -9,10 +9,7 @@ import com.example.oru_programele.database.models.DayForecast
 import com.example.oru_programele.database.models.WeekDayForecast
 
 @Dao
-interface DayForecastDao {
-
-//    @Insert(onConflict = OnConflictStrategy.IGNORE)
-//    suspend fun addDayForecast(dayForecast: DayForecast)
+interface ForecastDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addDayForecasts(dayForecastList: MutableList<DayForecast>)
@@ -20,10 +17,8 @@ interface DayForecastDao {
     @Query("SELECT * FROM day_forecast ORDER BY id ASC")
     fun readAllDayForecasts(): LiveData<List<DayForecast>>
 
-//    @Query("SELECT * FROM day_forecast WHERE date >= DATETIME('now') AND date < DATETIME('now', '+7 day')")
-//    fun readWeekForecasts() : LiveData<List<DayForecast>>
-
-    @Query("""
+    @Query(
+        """
         SELECT 
         day,
         sum(avg_day_temp) as dayTemperature,
@@ -58,14 +53,21 @@ interface DayForecastDao {
             GROUP BY day 
         ) as temps
         group by day
-    """)
-    fun readMultipleDaysForecast(city : String, dateFrom : String, dateTo : String) : LiveData<List<WeekDayForecast>>
+    """
+    )
+    fun readMultipleDaysForecast(
+        city: String,
+        dateFrom: String,
+        dateTo: String
+    ): LiveData<List<WeekDayForecast>>
 
-    @Query(""" 
+    @Query(
+        """ 
         SELECT id, dateTime, temperature, city 
         FROM day_forecast 
         WHERE city = :city
         AND strftime('%Y-%m-%d', dateTime) = :date
-    """)
-    fun readOneDayHourlyForecast(city : String, date : String) : LiveData<List<DayForecast>>
+    """
+    )
+    fun readOneDayHourlyForecast(city: String, date: String): LiveData<List<DayForecast>>
 }
