@@ -10,7 +10,7 @@
         android:id="@+id/spinner"
         android:layout_width="208dp"
         android:layout_height="28dp"
-        app:layout_constraintBottom_toBottomOf="@+id/bottomNavigationView"
+        app:layout_constrainedWidth="@+id/getDataButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,7 +19,7 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
-        android:layout_width="414dp"
+        android:layout_width="match_parent"
         android:layout_height="58dp"
         android:background="@color/white"
         app:itemIconTint="@color/black"
@@ -37,6 +37,7 @@
         android:layout_width="176dp"
         android:layout_height="40dp"
         android:text="Refresh"
+        app:layout_constrainedWidth="@+id/spinner"
         app:layout_constraintBottom_toBottomOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -47,18 +48,16 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
         android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="411dp"
-        android:layout_height="724dp"
-        android:layout_marginTop="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginEnd="1dp"
-        android:layout_marginBottom="612dp"
+        android:layout_marginBottom="1dp"
+        android:layout_marginTop="35dp"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/getDataButton"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/spinner"
         app:navGraph="@navigation/my_nav" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
